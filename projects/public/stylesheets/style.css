@@ -1,0 +1,46 @@
+body {
+    background-color: #eeeeee;
+    padding: 10px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+
+#titlelogo {
+    text-align: center;
+}
+
+#gameCanvas {
+    border: 10px solid brown;
+}
+
+#Cocos2dGameContainer {
+    text-align: center;
+}
+
+div.publickey {
+    text-align: center;
+    margin: 10px 0;
+}
+
+input.text-input {
+    font-size: 17px;
+    border: solid 5px #008080;
+}
+
+#useraddress {
+    text-align: center;
+    margin: 5px 0 0 0;
+}
+
+#buttonHowToGlow {
+    text-align: center;
+    margin: 5px 0 5px 0;
+}
+
+#buttonRanking {
+    text-align: center;
+    margin: 5px 0 5px 0;
+}

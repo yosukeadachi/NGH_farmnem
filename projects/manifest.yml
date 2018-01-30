@@ -1,0 +1,7 @@
+applications:
+- path: .
+  name: farmnem-webfront
+  domain: au-syd.mybluemix.net
+  random-route: true
+  instances: 1
+  memory: 128M

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+<link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+<div id="vueApp">
+    <div id="titlelogo">
+        <a href="/"><img src="/images/titlelogo.png" /></a>
+    </div>
+    <div>
+        <canvas id="gameCanvas" width="600" height="400"></canvas>
+    </div>
+
+    <div class="publickey">
+        <v-ons-input v-model="publickey" class="publickey" placeholder="Public Key" style="width: 640px;" /></v-ons-input>
+        <div id="useraddress">ADDRESS:{{ address }}</div>
+        <div>
+            <v-ons-button v-on:click="confirm" id="confirmPublickey">Confirm Tree</v-ons-button>
+        </div>
+    </div>
+    <div id="buttonHowToGlow">
+        <ons-button onclick="showDialog('dialogHowToGlow')">How To Glow</ons-button>
+    </div>
+    <ons-dialog id="dialogHowToGlow">
+        <div style="text-align: center; padding: 10px;">
+            <h3>How To Glow</h3>
+            <p> Send nem to the address below</p>
+            <h4> TDKUOYO2VJQAV73MTQEQOFCNA45FRKLDJCYSBVWG</h4>
+            <p> The greater the amount sent, the bigger the growth?!</p>
+            <p> It is harvested every hour. The total harvest is shown in the lower right</p>
+            <p>
+                <ons-button onclick="hideDialog('dialogHowToGlow')">OK</ons-button>
+            </p>
+        </div>
+    </ons-dialog>
+
+    <div id="buttonRanking">
+        <ons-button onclick="showDialog('dialogRanking')">RANKING</ons-button>
+    </div>
+    <ons-dialog id="dialogRanking">
+        <div style="text-align: center; padding: 10px;">
+            <h3>RANKING</h3>
+            <p>{{ rankNowDate_year }}/{{ rankNowDate_month }}/{{ rankNowDate_date }} {{ rankNowDate_hour }}</p>
+        </div>
+        <div style="text-align: right;">
+            <p>
+                <ons-button onclick="hideDialog('dialogRanking')">BACK</ons-button>
+            </p>
+        </div>
+        <ol>
+            <li v-for="rank in rankingNow">
+                {{ rank.level }}LV:[{{ rank.address }}]
+            </li>
+        </ol>
+    </ons-dialog>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+<script src="https://unpkg.com/vue-onsenui@2.5.0/dist/vue-onsenui.js"></script>
+<script src="javascripts/nem-sdk.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.3/seedrandom.min.js"></script>
+<script src="javascripts/cocos2d-js-v3.13-lite.js"></script>
+<script src="javascripts/farmnem-manager.js"></script>
+<script src="javascripts/loaderImage.js"></script>
+<script src="javascripts/tree.js"></script>
+<script>
+    var vueApp = new Vue({
+        el: '#vueApp',
+        data: {
+            levelTotal: "---",
+            levelNow: "---",
+            publickey: '<%= publickey %>',
+            address: "---",
+            rankingNow: "---",
+            rankNowDate_year: "",
+            rankNowDate_month: "",
+            rankNowDate_date: "",
+            rankNowDate_hour: ""
+        },
+        methods: {
+            confirm: function(event) {
+                window.location.href = "/" + this.publickey;
+            }
+        },
+    });
+    var _now = new Date();
+    vueApp.rankNowDate_year = _now.getFullYear();
+    vueApp.rankNowDate_month = _now.getMonth() + 1;
+    vueApp.rankNowDate_date = _now.getDate();
+    vueApp.rankNowDate_hour = "at " + _now.getHours();
+    var _user_pubkey = vueApp.publickey;
+    farmnem_manager.createRankingNow(_user_pubkey);
+    farmnem_manager.fetchLevelTotal(_user_pubkey);
+    farmnem_manager.connectNis(_user_pubkey);
+
+    var showDialog = function(id) {
+        document
+            .getElementById(id)
+            .show();
+    };
+    var hideDialog = function(id) {
+        document
+            .getElementById(id)
+            .hide();
+    };
+</script>
